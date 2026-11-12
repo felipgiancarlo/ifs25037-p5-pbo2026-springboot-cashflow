@@ -1,6 +1,6 @@
 spring:
   application:
-    name: felippp-p5-pbo2026-springboot-cashflow
+    name: ifs25037-p5-pbo2026-springboot-cashflow
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}
     username: ${DB_USERNAME}

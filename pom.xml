@@ -9,10 +9,10 @@
         <relativePath/>
     </parent>
     <groupId>org.delcom</groupId>
-    <artifactId>felippp-p5-pbo2026-springboot-cashflow</artifactId>
+    <artifactId>ifs25037-p5-pbo2026-springboot-cashflow</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>felippp-p5-pbo2026-springboot-cashflow</name>
-    <description>felippp-p5-pbo2026-springboot-cashflow</description>
+    <name>ifs25037-p5-pbo2026-springboot-cashflow</name>
+    <description>ifs25037-p5-pbo2026-springboot-cashflow</description>
     <url/>
     <licenses>
         <license/>

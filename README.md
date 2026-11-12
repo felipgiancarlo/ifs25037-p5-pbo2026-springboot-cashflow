@@ -2,7 +2,7 @@
 
 Aplikasi web **Cashflow (Catatan Keuangan)** berbasis **Spring Boot 4.1.2**, **Maven**, **Vaadin 25.3.4**, dan **JDBC (PostgreSQL)**, dengan arsitektur **Clean Architecture** (domain, usecase, adapter, framework). Studi kasus Praktikum 5 PBO 2026 (JDBC).
 
-> Ganti `felippp` (folder, artifact, package `org.delcom.felipppspringbootcashflow`) dengan username Anda — lihat `rename-username.sh`.
+> Ganti `felippp` (folder, artifact, package `org.delcom.ifs25037springbootcashflow`) dengan username Anda — lihat `rename-username.sh`.
 
 ## Fitur
 
