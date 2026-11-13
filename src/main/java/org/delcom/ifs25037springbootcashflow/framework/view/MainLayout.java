@@ -57,6 +57,7 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver, AfterN
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         header.expand(brandTitle);
         header.setWidthFull();
+        header.getElement().setAttribute("role", "banner");
         header.setPadding(true);
         header.getStyle()
                 .set("background", "#FFFFFF")
@@ -226,6 +227,8 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver, AfterN
     private void createDrawer() {
         VerticalLayout drawer = new VerticalLayout();
         drawer.setSizeFull();
+        drawer.getElement().setAttribute("role", "navigation");
+        drawer.getElement().setAttribute("aria-label", "Menu utama");
         drawer.setPadding(false);
         drawer.setSpacing(false);
         drawer.getStyle()

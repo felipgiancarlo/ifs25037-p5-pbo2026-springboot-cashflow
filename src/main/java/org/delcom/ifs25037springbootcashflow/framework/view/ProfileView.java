@@ -47,6 +47,8 @@ public class ProfileView extends VerticalLayout {
         this.fileStorage = fileStorage;
 
         setSizeFull();
+        // Landmark utama (Axe: landmark-one-main / region)
+        getElement().setAttribute("role", "main");
         setPadding(true);
         setSpacing(false);
         getStyle().set("background", "#F3F4F6");
@@ -202,7 +204,7 @@ public class ProfileView extends VerticalLayout {
                 .set("flex-shrink", "0")
                 .set("background", "#EFF6FF");
 
-        photoPlaceholder.getStyle().set("color", "#6B7280");
+        photoPlaceholder.getStyle().set("color", "#4B5563");
     }
 
     private void refreshPhoto(User user) {

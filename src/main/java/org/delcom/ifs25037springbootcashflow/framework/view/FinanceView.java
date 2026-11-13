@@ -69,6 +69,8 @@ public class FinanceView extends VerticalLayout {
         this.fileStorage = fileStorage;
 
         setSizeFull();
+        // Landmark utama (Axe: landmark-one-main / region)
+        getElement().setAttribute("role", "main");
         setPadding(true);
         setSpacing(false);
         getStyle().set("background", "#F3F4F6");
@@ -113,8 +115,8 @@ public class FinanceView extends VerticalLayout {
         caption.getStyle()
                 .set("display", "block")
                 .set("font-size", "0.875rem")
-                .set("font-weight", "500")
-                .set("color", accent);
+                .set("font-weight", "600")
+                .set("color", valueColor);
 
         value.getStyle()
                 .set("display", "block")

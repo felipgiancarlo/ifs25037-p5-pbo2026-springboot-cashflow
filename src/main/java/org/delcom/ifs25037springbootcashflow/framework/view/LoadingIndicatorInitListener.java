@@ -11,6 +11,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoadingIndicatorInitListener implements VaadinServiceInitListener {
 
+    private static final String MARK_INDICATOR_JS =
+            "const mark = () => {"
+            + "  document.querySelectorAll('vaadin-connection-indicator').forEach(el => {"
+            + "    if (el.getAttribute('role') !== 'status') {"
+            + "      el.setAttribute('role', 'status');"
+            + "      el.setAttribute('aria-live', 'polite');"
+            + "    }"
+            + "  });"
+            + "};"
+            + "mark();"
+            + "if (!window.__cashflowIndicatorObserver) {"
+            + "  window.__cashflowIndicatorObserver = new MutationObserver(mark);"
+            + "  window.__cashflowIndicatorObserver.observe(document.body, { childList: true });"
+            + "}";
+
     @Override
     public void serviceInit(ServiceInitEvent event) {
         event.getSource().addUIInitListener(uiEvent -> {
@@ -19,6 +34,9 @@ public class LoadingIndicatorInitListener implements VaadinServiceInitListener {
             conf.setFirstDelay(150);
             conf.setSecondDelay(600);
             conf.setThirdDelay(1500);
+            // Indikator koneksi bawaan Vaadin dijadikan live region agar tidak
+            // dianggap konten di luar landmark (Axe: region).
+            uiEvent.getUI().getPage().executeJs(MARK_INDICATOR_JS);
         });
     }
 }

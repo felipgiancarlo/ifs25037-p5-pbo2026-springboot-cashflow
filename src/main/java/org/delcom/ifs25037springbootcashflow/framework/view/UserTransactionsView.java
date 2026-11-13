@@ -44,6 +44,8 @@ public class UserTransactionsView extends VerticalLayout implements HasUrlParame
         this.presenter = presenter;
 
         setSizeFull();
+        // Landmark utama (Axe: landmark-one-main / region)
+        getElement().setAttribute("role", "main");
         setPadding(true);
         setSpacing(false);
         getStyle().set("background", "#F3F4F6");

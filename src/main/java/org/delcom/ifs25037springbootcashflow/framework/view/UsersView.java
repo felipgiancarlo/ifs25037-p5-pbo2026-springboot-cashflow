@@ -23,6 +23,8 @@ public class UsersView extends VerticalLayout implements BeforeEnterObserver {
 
     public UsersView(UserUseCase userUseCase) {
         setSizeFull();
+        // Landmark utama (Axe: landmark-one-main / region)
+        getElement().setAttribute("role", "main");
         setPadding(true);
         setSpacing(false);
         getStyle().set("background", "#F3F4F6");

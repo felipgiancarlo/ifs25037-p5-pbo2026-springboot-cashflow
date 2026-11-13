@@ -34,6 +34,8 @@ public class RegisterView extends VerticalLayout {
         }
 
         setSizeFull();
+        // Landmark utama (Axe: landmark-one-main / region)
+        getElement().setAttribute("role", "main");
         setJustifyContentMode(JustifyContentMode.CENTER);
         setAlignItems(Alignment.CENTER);
         getStyle().set("background", "#F3F4F6");

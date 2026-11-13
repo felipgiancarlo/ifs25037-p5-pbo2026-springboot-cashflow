@@ -20,6 +20,10 @@ spring:
 
 server:
   port: ${APP_PORT:${PORT:8080}}
+  compression:
+    enabled: true
+    min-response-size: 1024
+    mime-types: text/html,text/css,text/javascript,application/javascript,application/json,image/svg+xml
   servlet:
     session:
       timeout: 8h
