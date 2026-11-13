@@ -1,18 +1,17 @@
 package org.delcom.ifs25037springbootcashflow.framework.view;
 
-import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Input;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
-import com.vaadin.flow.component.textfield.PasswordField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -23,6 +22,13 @@ import org.delcom.ifs25037springbootcashflow.domain.repository.IUserRepository;
 import org.delcom.ifs25037springbootcashflow.framework.auth.AuthSession;
 import org.delcom.ifs25037springbootcashflow.usecase.AuthUseCase;
 
+/**
+ * Halaman login.
+ *
+ * Elemen form memakai &lt;input&gt; HTML biasa (bukan TextField/PasswordField)
+ * supaya id langsung ada di DOM saat halaman pertama kali dirender:
+ *   #login-username, #login-password, #login-submit
+ */
 @Route("login")
 @PageTitle("Login")
 public class LoginView extends VerticalLayout {
@@ -38,21 +44,40 @@ public class LoginView extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         getStyle().set("background", "#F3F4F6");
 
-        TextField username = new TextField("Username");
-        PasswordField password = new PasswordField("Password");
-        setInnerInputId(username, "login-username");
-        setInnerInputId(password, "login-password");
-        username.setWidthFull();
-        password.setWidthFull();
-        // Agar nilai sudah sampai server sebelum Enter memicu submit.
+        // ---------- Input username ----------
+        Input username = new Input();
+        username.setId("login-username");
+        username.setType("text");
+        username.setPlaceholder("Username");
+        username.getElement().setAttribute("name", "username");
+        username.getElement().setAttribute("autocomplete", "username");
         username.setValueChangeMode(ValueChangeMode.EAGER);
+        styleInput(username);
+
+        NativeLabel usernameLabel = new NativeLabel("Username");
+        usernameLabel.setFor(username);
+        styleLabel(usernameLabel);
+
+        // ---------- Input password ----------
+        Input password = new Input();
+        password.setId("login-password");
+        password.setType("password");
+        password.setPlaceholder("Password");
+        password.getElement().setAttribute("name", "password");
+        password.getElement().setAttribute("autocomplete", "current-password");
         password.setValueChangeMode(ValueChangeMode.EAGER);
+        styleInput(password);
+
+        NativeLabel passwordLabel = new NativeLabel("Password");
+        passwordLabel.setFor(password);
+        styleLabel(passwordLabel);
 
         ProgressBar loadingBar = new ProgressBar();
         loadingBar.setIndeterminate(true);
         loadingBar.setVisible(false);
         loadingBar.setWidthFull();
 
+        // ---------- Tombol submit ----------
         Button loginButton = new Button("Masuk");
         loginButton.setId("login-submit");
 
@@ -76,8 +101,13 @@ public class LoginView extends VerticalLayout {
         loginButton.setWidthFull();
         loginButton.getStyle().set("margin-top", "0.85rem");
         loginButton.getStyle().set("cursor", "pointer");
-        username.addKeyUpListener(Key.ENTER, event -> submit.run());
-        password.addKeyUpListener(Key.ENTER, event -> submit.run());
+
+        // Enter pada kolom input memicu submit.
+        // Event "input" (EAGER) sudah mengirim nilai ke server sebelum keyup Enter.
+        username.getElement().addEventListener("keyup", event -> submit.run())
+                .setFilter("event.key === 'Enter'");
+        password.getElement().addEventListener("keyup", event -> submit.run())
+                .setFilter("event.key === 'Enter'");
 
         H1 title = new H1("Masuk");
         title.getStyle().set("margin", "0");
@@ -94,7 +124,9 @@ public class LoginView extends VerticalLayout {
         VerticalLayout form = new VerticalLayout(
                 title,
                 subtitle,
+                usernameLabel,
                 username,
+                passwordLabel,
                 password,
                 loadingBar,
                 loginButton,
@@ -103,8 +135,6 @@ public class LoginView extends VerticalLayout {
         form.setSpacing(false);
         form.setWidthFull();
         form.getStyle().set("gap", "0.45rem");
-        username.getStyle().set("margin", "0");
-        password.getStyle().set("margin", "0");
 
         Div card = new Div(form);
         card.getStyle()
@@ -120,25 +150,22 @@ public class LoginView extends VerticalLayout {
         add(card);
     }
 
-    private void setInnerInputId(com.vaadin.flow.component.Component component, String id) {
-        Runnable apply = () -> component.getElement().executeJs(
-                "const applyId = () => {" +
-                "  const input = this.inputElement || this.querySelector('input');" +
-                "  if (input) {" +
-                "    input.id = $0;" +
-                "    const label = this.querySelector('label');" +
-                "    if (label) label.setAttribute('for', $0);" +
-                "    return true;" +
-                "  }" +
-                "  return false;" +
-                "};" +
-                "if (!applyId()) {" +
-                "  if (this.updateComplete) { this.updateComplete.then(applyId); }" +
-                "  const obs = new MutationObserver(() => { if (applyId()) obs.disconnect(); });" +
-                "  obs.observe(this, { childList: true, subtree: true });" +
-                "}", id);
+    private static void styleInput(Input input) {
+        input.setWidthFull();
+        input.getStyle()
+                .set("padding", "0.6rem 0.75rem")
+                .set("border", "1px solid #D1D5DB")
+                .set("border-radius", "8px")
+                .set("font-size", "1rem")
+                .set("box-sizing", "border-box")
+                .set("margin", "0");
+    }
 
-        apply.run();
-        component.addAttachListener(event -> apply.run());
+    private static void styleLabel(NativeLabel label) {
+        label.getStyle()
+                .set("font-size", "0.875rem")
+                .set("font-weight", "500")
+                .set("color", "#374151")
+                .set("margin-top", "0.25rem");
     }
 }
